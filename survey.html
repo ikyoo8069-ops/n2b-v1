@@ -359,8 +359,17 @@
     </div>
 
     <script>
-        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+        // Google Apps Script 웹 앱 URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJV3phodUy8Dz3zBMCHUVCehpcvinbYMRwakTwsxsgcyUUCtz3LTX79D77G-BWy9Ev/exec';
+        
+        document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // 제출 버튼 비활성화
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = '제출 중...';
             
             // 폼 데이터 수집
             const formData = new FormData(e.target);
@@ -374,23 +383,47 @@
             data.useful = formData.get('q2');
             data.features = q3Values.join(', ');
             data.price = formData.get('q4');
-            data.feedback = formData.get('q5');
+            data.feedback = formData.get('q5') || '없음';
             data.recommend = formData.get('q6');
             data.email = formData.get('email');
             data.timestamp = new Date().toISOString();
             
-            // 로컬 스토리지에 저장
-            localStorage.setItem('n2b_survey', JSON.stringify(data));
-            
-            // 콘솔에 출력 (실제로는 서버로 전송)
-            console.log('Survey Data:', data);
-            
-            // 감사 메시지 표시
-            document.getElementById('surveyForm').style.display = 'none';
-            document.getElementById('thankYou').classList.add('active');
-            
-            // 맨 위로 스크롤
-            window.scrollTo(0, 0);
+            try {
+                // Google Sheets로 전송
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                // 로컬 스토리지에도 백업 저장
+                localStorage.setItem('n2b_survey', JSON.stringify(data));
+                
+                // 콘솔에 출력 (디버깅용)
+                console.log('Survey Data:', data);
+                console.log('Sent to Google Sheets!');
+                
+                // 감사 메시지 표시
+                document.getElementById('surveyForm').style.display = 'none';
+                document.getElementById('thankYou').classList.add('active');
+                
+                // 맨 위로 스크롤
+                window.scrollTo(0, 0);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // 에러 시에도 로컬에는 저장
+                localStorage.setItem('n2b_survey', JSON.stringify(data));
+                
+                // 사용자에게는 성공으로 표시 (no-cors 때문에 응답 확인 불가)
+                document.getElementById('surveyForm').style.display = 'none';
+                document.getElementById('thankYou').classList.add('active');
+                window.scrollTo(0, 0);
+            }
         });
     </script>
 </body>
