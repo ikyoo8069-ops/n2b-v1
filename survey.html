@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N2B 사용 설문 - 무료 쿠폰 받기</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .survey-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .survey-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .survey-header h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .survey-incentive {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .survey-incentive strong {
+            color: #856404;
+            font-size: 1.2em;
+        }
+        
+        .survey-form {
+            background: white;
+        }
+        
+        .question-block {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .question-block h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+        
+        .radio-options, .checkbox-options-survey {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .radio-option input, .checkbox-option input {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .email-input {
+            min-height: auto;
+        }
+        
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .submit-button {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .thank-you.active {
+            display: block;
+        }
+        
+        .thank-you h2 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .coupon-code {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="survey-container">
+            <!-- 설문 폼 -->
+            <div id="surveyForm" class="survey-form">
+                <div class="survey-header">
+                    <h1>📊 N2B 사용 설문</h1>
+                    <p>여러분의 소중한 의견이 더 나은 서비스를 만듭니다</p>
+                </div>
+
+                <div class="survey-incentive">
+                    <strong>🎁 설문 완료 시 v1.5 무료 쿠폰 증정!</strong><br>
+                    <span>(정가 30만원 → 무료)</span>
+                </div>
+
+                <form id="feedbackForm">
+                    <!-- Q1 -->
+                    <div class="question-block">
+                        <h3><span class="question-number">1</span>사용하기 쉬웠나요?</h3>
+                        <div class="radio-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q1" value="5" required>
+                                <span>⭐⭐⭐⭐⭐ 매우 쉬움</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1" value="4">
+                                <span>⭐⭐⭐⭐ 쉬움</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1" value="3">
+                                <span>⭐⭐⭐ 보통</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1" value="2">
+                                <span>⭐⭐ 어려움</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q1" value="1">
+                                <span>⭐ 매우 어려움</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="question-block">
+                        <h3><span class="question-number">2</span>결과가 유용했나요?</h3>
+                        <div class="radio-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q2" value="5" required>
+                                <span>💎 매우 유용</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q2" value="4">
+                                <span>✅ 유용</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q2" value="3">
+                                <span>😐 보통</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q2" value="2">
+                                <span>😕 별로</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q2" value="1">
+                                <span>❌ 전혀</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="question-block">
+                        <h3><span class="question-number">3</span>어떤 기능이 가장 필요하신가요? (복수 선택)</h3>
+                        <div class="checkbox-options-survey">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="q3" value="제안서 자동 작성">
+                                <span>📝 제안서 자동 작성</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="q3" value="선정률 예측">
+                                <span>🎯 선정률 예측</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="q3" value="1:1 전문가 상담">
+                                <span>💬 1:1 전문가 상담</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="q3" value="작성 가이드">
+                                <span>📚 작성 가이드</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="q3" value="유사 성공 사례">
+                                <span>✨ 유사 성공 사례</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="question-block">
+                        <h3><span class="question-number">4</span>제안서 작성 도우미, 얼마까지 지불 의향이 있나요?</h3>
+                        <div class="radio-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q4" value="무료만" required>
+                                <span>무료만 사용</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q4" value="10만원">
+                                <span>💵 10만원</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q4" value="30만원">
+                                <span>💰 30만원</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q4" value="50만원">
+                                <span>💰💰 50만원</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q4" value="100만원 이상">
+                                <span>💎 100만원 이상</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="question-block">
+                        <h3><span class="question-number">5</span>개선할 점이나 건의사항이 있으신가요?</h3>
+                        <textarea class="text-input" name="q5" placeholder="자유롭게 의견을 남겨주세요..."></textarea>
+                    </div>
+
+                    <!-- Q6 -->
+                    <div class="question-block">
+                        <h3><span class="question-number">6</span>친구에게 추천하시겠어요?</h3>
+                        <div class="radio-options">
+                            <label class="radio-option">
+                                <input type="radio" name="q6" value="5" required>
+                                <span>🌟 적극 추천!</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q6" value="4">
+                                <span>👍 추천</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q6" value="3">
+                                <span>😐 보통</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q6" value="2">
+                                <span>👎 비추천</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="q6" value="1">
+                                <span>⛔ 절대 비추천</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q7 -->
+                    <div class="question-block">
+                        <h3><span class="question-number">7</span>이메일 주소 (v1.5 무료 쿠폰 발송용)</h3>
+                        <input type="email" class="text-input email-input" name="email" placeholder="example@email.com" required>
+                        <p class="small-text" style="margin-top: 10px;">* v1.5 출시 시 자동으로 쿠폰이 발송됩니다</p>
+                    </div>
+
+                    <div class="submit-section">
+                        <button type="submit" class="submit-button">
+                            🎁 제출하고 무료 쿠폰 받기
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 감사 메시지 -->
+            <div id="thankYou" class="thank-you">
+                <h2>🎉 감사합니다!</h2>
+                <p style="font-size: 1.2em; margin: 20px 0;">소중한 의견 감사드립니다</p>
+                
+                <div class="coupon-code">
+                    쿠폰 코드: <span id="couponCode">N2B-EARLY-2025</span>
+                </div>
+                
+                <p>입력하신 이메일로 쿠폰이 발송되었습니다.<br>
+                v1.5 출시 시 자동으로 적용됩니다.</p>
+                
+                <button class="cta-button" onclick="window.location.href='index.html'" style="margin-top: 30px;">
+                    홈으로 돌아가기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 폼 데이터 수집
+            const formData = new FormData(e.target);
+            const data = {};
+            
+            // 체크박스 처리
+            const q3Values = [];
+            formData.getAll('q3').forEach(val => q3Values.push(val));
+            
+            data.ease = formData.get('q1');
+            data.useful = formData.get('q2');
+            data.features = q3Values.join(', ');
+            data.price = formData.get('q4');
+            data.feedback = formData.get('q5');
+            data.recommend = formData.get('q6');
+            data.email = formData.get('email');
+            data.timestamp = new Date().toISOString();
+            
+            // 로컬 스토리지에 저장
+            localStorage.setItem('n2b_survey', JSON.stringify(data));
+            
+            // 콘솔에 출력 (실제로는 서버로 전송)
+            console.log('Survey Data:', data);
+            
+            // 감사 메시지 표시
+            document.getElementById('surveyForm').style.display = 'none';
+            document.getElementById('thankYou').classList.add('active');
+            
+            // 맨 위로 스크롤
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>
